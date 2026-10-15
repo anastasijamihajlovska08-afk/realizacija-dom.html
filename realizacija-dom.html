@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Паметен дом – контролен панел</title>
+<style>
+:root{--bg:#eef2ee;--surf:#fff;--ink:#1c2b24;--mute:#5b6b63;--line:#cfd9d2;--ok:#2f7d4f;--warn:#b7791f;--bad:#c0392b;--acc:#1f5f4a;--accink:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121a16;--surf:#1a2520;--ink:#e6efe9;--mute:#9db0a5;--line:#2c3b34;--ok:#5fc48a;--warn:#e0b04f;--bad:#ef7b6d;--acc:#5fc48a;--accink:#0d1612;color-scheme:dark}}
+html{scroll-padding-top:4.5rem;scroll-behavior:smooth;height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Trebuchet MS","Segoe UI",Arial,sans-serif;min-height:100%}
+*{box-sizing:border-box}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;flex-wrap:wrap;gap:.25rem;align-items:center;padding:.5rem 1rem;background:var(--acc);color:var(--accink)}
+nav strong{margin-right:auto;font-size:1.05rem}
+nav a{color:inherit;text-decoration:none;padding:.35rem .7rem;border-radius:999px}
+nav a:hover,nav a:focus-visible{background:rgba(255,255,255,.22);outline:2px solid currentColor}
+nav .badge{background:var(--bad);color:#fff;border-radius:999px;padding:0 .5rem;font-size:.85rem;margin-left:.2rem}
+main{max-width:1100px;margin:0 auto;padding:1rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between}
+h1{margin:.5rem 0;font-size:1.7rem}
+h2{margin:2rem 0 .75rem;font-size:1.3rem;border-bottom:2px solid var(--line);padding-bottom:.3rem}
+button{font:inherit;background:var(--acc);color:var(--accink);border:0;border-radius:8px;padding:.55rem 1rem;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--warn);outline-offset:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+.card{background:var(--surf);border:1px solid var(--line);border-left:6px solid var(--ok);border-radius:10px;padding:.9rem;display:flex;flex-direction:column;gap:.55rem}
+.card.warn{border-left-color:var(--warn)}.card.bad{border-left-color:var(--bad)}
+.card.off .val{opacity:.4}
+.card h3{margin:0;font-size:1.05rem;display:flex;justify-content:space-between;gap:.5rem}
+.st{font-size:.85rem;font-weight:700;color:var(--ok)}.warn .st{color:var(--warn)}.bad .st{color:var(--bad)}
+.val{display:flex;align-items:center;gap:.6rem;min-height:2.2rem;font-size:1.15rem;flex-wrap:wrap}
+.val meter,.val progress,.val input[type=range]{flex:1;min-width:110px}
+.val input[type=number],.val input[type=text],.val select{font:inherit;width:8rem;padding:.25rem;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:6px}
+.rule{font-size:.85rem;color:var(--mute);margin:0}
+.foot{display:flex;justify-content:space-between;gap:.5rem;font-size:.9rem;border-top:1px dashed var(--line);padding-top:.5rem;flex-wrap:wrap}
+.bat.low{color:var(--bad);font-weight:700}
+details.n{background:var(--surf);border:1px solid var(--line);border-left:6px solid var(--warn);border-radius:8px;margin:.5rem 0;padding:.5rem .8rem}
+details.n.bad{border-left-color:var(--bad)}
+details.n summary{cursor:pointer;font-weight:700}
+details.n p{margin:.4rem 0 0;color:var(--mute)}
+.empty{color:var(--ok);font-weight:700}
+</style>
+</head>
+<body>
+<nav aria-label="Главна навигација">
+  <strong>Паметен дом</strong>
+  <a href="#spalna">Спална</a><a href="#dnevna">Дневна</a><a href="#kujna">Кујна</a><a href="#gradina">Градина</a>
+  <a href="#notifikacii">Нотификации<span class="badge" id="badge">0</span></a>
+</nav>
+<main>
+  <header class="top">
+    <h1>Контролен панел</h1>
+    <button id="sim" type="button">Симулирај нови мерења</button>
+  </header>
+  <div id="rooms"></div>
+  <section id="notifikacii"><h2>Нотификации</h2><div id="notes"></div></section>
+</main>
+<script>
+const ROOMS=[["spalna","Спална"],["dnevna","Дневна"],["kujna","Кујна"],["gradina","Градина"]];
+// r=дел, n=име, t=HTML елемент, u=единица, lo/hi=дозволена зона (lo < v < hi), min/max=опсег, v=вредност, b=батерија %, on=вклучен
+const S=[
+{r:"spalna",n:"Температура",t:"meter",u:"°C",lo:18,hi:22,min:10,max:35,v:21,b:87,on:1},
+{r:"spalna",n:"Влажност на воздух",t:"progress",u:"%",lo:30,hi:60,min:0,max:100,v:45,b:64,on:1},
+{r:"spalna",n:"Ниво на бучава",t:"range",u:"dB",lo:15,hi:45,min:0,max:90,v:32,b:12,on:1},
+{r:"dnevna",n:"Температура",t:"output",u:"°C",lo:20,hi:24,min:10,max:35,v:22,b:93,on:1},
+{r:"dnevna",n:"Осветленост",t:"number",u:"lux",lo:100,hi:500,min:0,max:1000,v:300,b:55,on:1},
+{r:"dnevna",n:"Јаглерод диоксид (CO₂)",t:"data",u:"ppm",lo:350,hi:1000,min:300,max:2000,v:650,b:71,on:1},
+{r:"kujna",n:"Гас",t:"select",u:"ppm",lo:-1,hi:100,min:0,max:400,v:0,b:48,on:1,opts:[0,50,100,200,400]},
+{r:"kujna",n:"Температура на фрижидер",t:"strong",u:"°C",lo:1,hi:6,min:-5,max:15,v:4,b:80,on:1},
+{r:"kujna",n:"Проток на вода",t:"mark",u:"l/min",lo:-1,hi:8,min:0,max:15,v:2,b:35,on:0},
+{r:"gradina",n:"Влага во почва",t:"text",u:"%",lo:30,hi:70,min:0,max:100,v:48,b:90,on:1},
+{r:"gradina",n:"Брзина на ветер",t:"samp",u:"km/h",lo:-1,hi:40,min:0,max:100,v:12,b:67,on:1},
+{r:"gradina",n:"УВ индекс",t:"code",u:"",lo:-1,hi:7,min:0,max:11,v:3,b:25,on:1}
+];
+const $=s=>document.querySelector(s);
+const roomName=id=>ROOMS.find(r=>r[0]===id)[1];
+
+function build(){
+  $("#rooms").innerHTML=ROOMS.map(([id,name])=>`<section id="${id}"><h2>${name}</h2><div class="grid" id="g-${id}"></div></section>`).join("");
+  S.forEach((s,i)=>{
+    const c=document.createElement("article");c.className="card";c.id="s"+i;
+    c.innerHTML=`<h3><span>${s.n}</span><span class="st"></span></h3><div class="val"></div>
+    <p class="rule">Правило: ${s.lo<0?"":s.lo+" &lt; "}вредност &lt; ${s.hi} ${s.u}</p>
+    <div class="foot"><label><input type="checkbox" ${s.on?"checked":""}> Вклучен</label><span class="bat"></span></div>`;
+    c.querySelector(".val").append(...makeEl(s,i));
+    c.querySelector("input[type=checkbox]").onchange=e=>{s.on=e.target.checked?1:0;refresh()};
+    $("#g-"+s.r).append(c);
+  });
+}
+function makeEl(s,i){
+  let el,cap=document.createElement("span");cap.className="cap";
+  const edit=v=>{s.v=Number(v);refresh()};
+  if(s.t==="meter"){el=document.createElement("meter");Object.assign(el,{min:s.min,max:s.max,low:s.lo,high:s.hi,optimum:(s.lo+s.hi)/2})}
+  else if(s.t==="progress"){el=document.createElement("progress");el.max=s.max}
+  else if(s.t==="range"){el=document.createElement("input");el.type="range";Object.assign(el,{min:s.min,max:s.max});el.oninput=()=>edit(el.value)}
+  else if(s.t==="number"){el=document.createElement("input");el.type="number";Object.assign(el,{min:s.min,max:s.max});el.oninput=()=>edit(el.value);cap.textContent=s.u}
+  else if(s.t==="select"){el=document.createElement("select");el.innerHTML=s.opts.map(o=>`<option>${o}</option>`).join("");el.onchange=()=>edit(el.value);cap.textContent=s.u}
+  else if(s.t==="text"){el=document.createElement("input");el.type="text";el.readOnly=true}
+  else el=document.createElement(s.t);
+  el.dataset.i=i;
+  return["meter","progress","range"].includes(s.t)?[el,cap]:(["number","select"].includes(s.t)?[el,cap]:[el]);
+}
+function paint(s,i){
+  const c=$("#s"+i),el=c.querySelector(".val [data-i]"),cap=c.querySelector(".cap"),txt=s.v+(s.u?" "+s.u:"");
+  if(["meter","progress","range","number","select"].includes(s.t)){el.value=s.v;if(cap&&!["number","select"].includes(s.t))cap.textContent=txt}
+  else if(s.t==="text")el.value=txt;
+  else if(s.t==="data"){el.value=s.v;el.textContent=txt}
+  else el.textContent=txt;
+  el.disabled=!s.on;
+}
+function check(s){
+  if(!s.on)return{lvl:"off"};
+  if(s.v>=s.hi||(s.lo>=0&&s.v<=s.lo))return{lvl:"bad"};
+  return{lvl:"ok"};
+}
+function refresh(){
+  const notes=[];
+  S.forEach((s,i)=>{
+    paint(s,i);
+    const c=$("#s"+i),res=check(s),low=s.b<20;
+    c.className="card"+(res.lvl==="bad"?" bad":(res.lvl==="off"||low?" warn":""))+(s.on?"":" off");
+    c.querySelector(".st").textContent=res.lvl==="bad"?"Надвор од зона":res.lvl==="off"?"Исклучен":"Во ред";
+    const b=c.querySelector(".bat");b.textContent="Батерија: "+s.b+"%";b.className="bat"+(low?" low":"");
+    const where=roomName(s.r)+" – "+s.n;
+    if(res.lvl==="bad")notes.push({k:"bad",t:where+": вредноста е надвор од зоната",d:`Измерено: ${s.v} ${s.u}. Дозволено: ${s.lo<0?"":s.lo+" < "}вредност < ${s.hi} ${s.u}. Проверете го просторот или прилагодете ја опремата.`});
+    if(!s.on)notes.push({k:"warn",t:where+": сензорот е исклучен",d:"Додека е исклучен, сензорот не мери и правилата за зона не се проверуваат. Вклучете го за да продолжи следењето."});
+    if(low)notes.push({k:"warn",t:where+": слаба батерија ("+s.b+"%)",d:"Нивото на батеријата е под 20%. Заменете или наполнете ја батеријата наскоро."});
+  });
+  $("#badge").textContent=notes.length;
+  $("#notes").innerHTML=notes.length?notes.map(n=>`<details class="n ${n.k}"><summary>${n.k==="bad"?"⚠":"ⓘ"} ${n.t}</summary><p>${n.d}</p></details>`).join(""):'<p class="empty">Сите сензори работат во дозволените зони.</p>';
+}
+function simulate(){
+  S.forEach(s=>{
+    if(s.opts){s.v=s.opts[Math.floor(Math.random()*s.opts.length)];return}
+    const span=s.hi-Math.max(s.lo,s.min),a=Math.max(s.lo,s.min)-0.3*span;
+    s.v=Math.min(s.max,Math.max(s.min,Math.round(a+Math.random()*1.6*span)));
+  });
+  refresh();
+}
+$("#sim").onclick=simulate;
+build();refresh();
+</script>
+</body>
+</html>

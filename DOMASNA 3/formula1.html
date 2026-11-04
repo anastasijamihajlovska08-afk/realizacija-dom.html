@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+    <meta charset="UTF-8">
+    <title>Формула 1 - Игра</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>🏎️ Формула 1 - Трка 🏁</h1>
+
+    <div id="info">
+        <p><b>Круг:</b> <span id="brojKrug">0</span> / 10</p>
+        <p><b>Гуми:</b>
+            <span class="guma meki">Меки</span> побрзи, но брзо се трошат &nbsp; | &nbsp;
+            <span class="guma tvrdi">Тврди</span> побавни, но траат подолго
+        </p>
+        <p><b>Правило:</b> секој возач мора барем еднаш да влезе во бокс и да смени гуми.</p>
+    </div>
+
+    <div id="kopcinja">
+        <button id="kopceKrug" onclick="sledenKrug()">Вози следен круг ▶</button>
+        <button id="kopceNova" onclick="novaTrka()">Нова трка ↺</button>
+    </div>
+
+    <div id="pobednik"></div>
+
+   
+    <div id="trka"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

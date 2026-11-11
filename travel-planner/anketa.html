@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Анкета | Travel Planner</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <a class="logo" href="index.html">✈ Travel Planner</a>
+    <nav>
+      <a href="index.html">Почетна</a>
+      <a href="destinacii.html">Дестинации</a>
+      <a href="galerija.html">Галерија</a>
+      <a href="blog.html">Блог</a>
+      <a href="anketa.html">Анкета</a>
+      <a href="login.html" id="linkNajava">Најава</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Анкета за посетителите</h1>
+    <p>Кажете ни какви се вашите импресии од сајтот. Ви треба помалку од една минута!</p>
+
+    <form class="forma" id="formaAnketa" onsubmit="return isprativAnketa()">
+      <label for="anketaIme">Име: *</label>
+      <input type="text" id="anketaIme">
+
+      <label for="anketaEmail">Е-пошта:</label>
+      <input type="email" id="anketaEmail">
+
+      <label for="anketaVozrast">Возраст:</label>
+      <input type="number" id="anketaVozrast" min="1" max="120">
+
+      <label>Како го оценувате сајтот? *</label>
+      <label class="opcija"><input type="radio" name="ocena" value="1"> 1</label>
+      <label class="opcija"><input type="radio" name="ocena" value="2"> 2</label>
+      <label class="opcija"><input type="radio" name="ocena" value="3"> 3</label>
+      <label class="opcija"><input type="radio" name="ocena" value="4"> 4</label>
+      <label class="opcija"><input type="radio" name="ocena" value="5"> 5</label>
+
+      <label>Што ви се допадна? (можете повеќе)</label>
+      <label class="opcija"><input type="checkbox" name="dopadna" value="Дизајн"> Дизајн</label>
+      <label class="opcija"><input type="checkbox" name="dopadna" value="Галерија"> Галерија</label>
+      <label class="opcija"><input type="checkbox" name="dopadna" value="Калкулатор"> Калкулатор</label>
+      <label class="opcija"><input type="checkbox" name="dopadna" value="Блог"> Блог</label>
+
+      <label for="anketaKako">Како дознавте за нас?</label>
+      <select id="anketaKako">
+        <option>Пријател</option>
+        <option>Социјални мрежи</option>
+        <option>Google пребарување</option>
+        <option>Друго</option>
+      </select>
+
+      <label for="anketaKomentar">Ваш коментар или предлог:</label>
+      <textarea id="anketaKomentar" rows="4"></textarea>
+
+      <button type="submit" class="kopce">Испрати</button>
+      <p class="poraka" id="porakaAnketa" style="color:green;"></p>
+    </form>
+
+    <div class="forma">
+      <h2>Резултати од анкетата</h2>
+      <div id="rezultatiAnketa"></div>
+    </div>
+  </main>
+
+  <footer>
+    <p>Контакт: info@travelplanner.mk | Тел: 070 123 456</p>
+    <p>Следете нè: <a href="#">Facebook</a> | <a href="#">Instagram</a></p>
+    <p>© 2026 Travel Planner</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

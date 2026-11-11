@@ -1,0 +1,299 @@
+/* ===== ОПШТО ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f7fb;
+  color: #333;
+}
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 70vh;
+}
+
+h1, h2, h3 {
+  color: #1d3557;
+}
+
+/* ===== HEADER ===== */
+header {
+  background-color: #1d3557;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.logo {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin-left: 15px;
+  padding: 6px 10px;
+  border-radius: 5px;
+}
+
+nav a:hover {
+  background-color: #e63946;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background-color: #1d3557;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+}
+
+footer a {
+  color: #a8dadc;
+}
+
+/* ===== ПОЧЕТНА - БАНЕР ===== */
+.baner {
+  background-image: url("sliki/baner.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 350px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: 30px;
+  align-items: center;
+  text-align: center;
+}
+
+.baner h1 {
+  color: white;
+  font-size: 40px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px 20px;
+  border-radius: 8px;
+}
+
+/* ===== КОПЧИЊА ===== */
+.kopce {
+  display: inline-block;
+  background-color: #e63946;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.kopce:hover {
+  background-color: #c1121f;
+}
+
+.kopce-sivo {
+  background-color: #6c757d;
+}
+
+/* ===== КАРТИЧКИ ЗА ГРАДОВИ ===== */
+.mreza {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.karticka {
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s;
+}
+
+.karticka:hover {
+  transform: scale(1.03);
+}
+
+.karticka img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+.karticka-tekst {
+  padding: 15px;
+}
+
+.oznaka {
+  display: inline-block;
+  background-color: #a8dadc;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-right: 5px;
+}
+
+/* ===== ПОПУЛАРНИ ДЕСТИНАЦИИ (почетна) ===== */
+.popularna .slika-ramka {
+  overflow: hidden; /* за зумот да не излезе надвор */
+}
+
+.popularna img {
+  display: block;
+  height: auto;
+  aspect-ratio: 3 / 2; /* сликата се гледа цела */
+}
+
+/* на почетната 3 картички во ред, преку цела ширина */
+#popularni {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.popularna p {
+  line-height: 1.5;
+}
+
+/* ===== ФОРМИ ===== */
+.forma {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.forma label {
+  display: block;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+.forma input[type="text"],
+.forma input[type="number"],
+.forma input[type="email"],
+.forma input[type="password"],
+.forma select,
+.forma textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 15px;
+}
+
+.forma .kopce {
+  margin-top: 15px;
+}
+
+.opcija {
+  font-weight: normal !important;
+  display: inline-block !important;
+  margin-right: 15px;
+}
+
+.mala-forma {
+  max-width: 400px;
+  margin: 40px auto;
+}
+
+.poraka {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* ===== ГАЛЕРИЈА ===== */
+.galerija {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.galerija img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: contain; /* сликата се гледа цела, без сечење */
+  background-color: #1d3557;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.galerija img:hover {
+  opacity: 0.8;
+}
+
+/* ===== СТРАНА ЗА ГРАД ===== */
+.slika-blok {
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.slika-blok img {
+  display: block;
+  width: 100%;
+  max-height: 600px;
+  object-fit: contain; /* сликата се гледа цела, без сечење */
+  background-color: #1d3557;
+  border-radius: 8px;
+}
+
+.komentar {
+  background-color: #f1f1f1;
+  padding: 8px;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+/* ===== БЛОГ ===== */
+.statija {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.statija img {
+  width: 100%;
+  height: auto; /* сликата се гледа цела */
+  border-radius: 8px;
+}
+
+.statija li {
+  margin-bottom: 8px;
+}
+
+/* ===== ЗА МОБИЛЕН ===== */
+@media (max-width: 600px) {
+  #popularni {
+    grid-template-columns: 1fr;
+  }
+  header {
+    flex-direction: column;
+  }
+  nav a {
+    display: inline-block;
+    margin: 5px;
+  }
+  .baner h1 {
+    font-size: 26px;
+  }
+}

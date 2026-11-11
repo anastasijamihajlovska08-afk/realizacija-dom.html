@@ -1,0 +1,11 @@
+Во оваа папка стави ги сликите со точно овие имиња:
+
+baner.jpg
+rim1.jpg  rim2.jpg  rim3.jpg
+pariz1.jpg  pariz2.jpg  pariz3.jpg
+ohrid1.jpg  ohrid2.jpg  ohrid3.jpg
+barselona1.jpg  barselona2.jpg  barselona3.jpg
+bansko1.jpg  bansko2.jpg  bansko3.jpg
+cermat1.jpg  cermat2.jpg  cermat3.jpg
+
+Вкупно 19 слики. Имињата мора да се со мали латинични букви и да завршуваат на .jpg

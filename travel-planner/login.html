@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Најава | Travel Planner</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <a class="logo" href="index.html">✈ Travel Planner</a>
+    <nav>
+      <a href="index.html">Почетна</a>
+      <a href="destinacii.html">Дестинации</a>
+      <a href="galerija.html">Галерија</a>
+      <a href="blog.html">Блог</a>
+      <a href="anketa.html">Анкета</a>
+      <a href="login.html" id="linkNajava">Најава</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="forma mala-forma">
+      <h1>Најава</h1>
+      <form onsubmit="return najaviSe()">
+        <label for="korisnik">Корисничко име:</label>
+        <input type="text" id="korisnik" placeholder="admin">
+
+        <label for="lozinka">Лозинка:</label>
+        <input type="password" id="lozinka" placeholder="1234">
+
+        <button type="submit" class="kopce">Најави се</button>
+        <p class="poraka" id="porakaNajava"></p>
+      </form>
+      <p><small>За тест: корисник <b>admin</b>, лозинка <b>1234</b></small></p>
+    </div>
+  </main>
+
+  <footer>
+    <p>Контакт: info@travelplanner.mk | Тел: 070 123 456</p>
+    <p>Следете нè: <a href="#">Facebook</a> | <a href="#">Instagram</a></p>
+    <p>© 2026 Travel Planner</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

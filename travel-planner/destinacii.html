@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Дестинации | Travel Planner</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <a class="logo" href="index.html">✈ Travel Planner</a>
+    <nav>
+      <a href="index.html">Почетна</a>
+      <a href="destinacii.html">Дестинации</a>
+      <a href="galerija.html">Галерија</a>
+      <a href="blog.html">Блог</a>
+      <a href="anketa.html">Анкета</a>
+      <a href="login.html" id="linkNajava">Најава</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Дестинации</h1>
+
+    <!-- ФИЛТЕР -->
+    <div class="forma">
+      <h2>Филтрирај</h2>
+      <label for="filterKategorija">Категорија:</label>
+      <select id="filterKategorija">
+        <option value="site">Сите</option>
+        <option value="Море">Море</option>
+        <option value="Планина">Планина</option>
+        <option value="Културен град">Културен град</option>
+      </select>
+
+      <label for="filterBudzet">Максимален буџет по ден (€):</label>
+      <input type="number" id="filterBudzet" placeholder="пр. 100">
+
+      <button class="kopce" onclick="filtriraj()">Филтрирај</button>
+      <button class="kopce kopce-sivo" onclick="iscistiFilter()">Исчисти</button>
+    </div>
+
+    <!-- ЛИСТА НА ГРАДОВИ -->
+    <div class="mreza" id="listaDestinacii"></div>
+
+    <!-- КАЛКУЛАТОР -->
+    <div class="forma" style="margin-top:30px;">
+      <h2>Пресметка на патни трошоци</h2>
+      <form onsubmit="return presmetaj()">
+        <label for="kalkGrad">Дестинација:</label>
+        <select id="kalkGrad"></select>
+
+        <label for="kalkDenovi">Број на денови:</label>
+        <input type="number" id="kalkDenovi" value="3">
+
+        <label for="kalkLugje">Број на луѓе:</label>
+        <input type="number" id="kalkLugje" value="1">
+
+        <label for="kalkPrevoz">Превоз по човек (€):</label>
+        <input type="number" id="kalkPrevoz" value="100">
+
+        <button type="submit" class="kopce">Пресметај</button>
+        <p class="poraka" id="rezultatKalk"></p>
+      </form>
+    </div>
+
+    <!-- ДОДАВАЊЕ НОВА ДЕСТИНАЦИЈА -->
+    <p id="porakaZaNajava"><a href="login.html">Најавете се</a> за да додавате или бришете дестинации.</p>
+
+    <form class="forma" id="formaDodadi" style="display:none;" onsubmit="return dodadiDestinacija()">
+      <h2>Додај нова дестинација</h2>
+      <label for="novoIme">Име на град:</label>
+      <input type="text" id="novoIme">
+
+      <label for="novaDrzava">Држава:</label>
+      <input type="text" id="novaDrzava">
+
+      <label for="novaKategorija">Категорија:</label>
+      <select id="novaKategorija">
+        <option>Море</option>
+        <option>Планина</option>
+        <option>Културен град</option>
+      </select>
+
+      <label for="novBudzet">Буџет по ден (€):</label>
+      <input type="number" id="novBudzet">
+
+      <label for="novOpis">Опис:</label>
+      <textarea id="novOpis" rows="3"></textarea>
+
+      <label for="novaSlika">Линк до слика (не е задолжително):</label>
+      <input type="text" id="novaSlika" placeholder="https://...">
+
+      <button type="submit" class="kopce">Додај</button>
+    </form>
+  </main>
+
+  <footer>
+    <p>Контакт: info@travelplanner.mk | Тел: 070 123 456</p>
+    <p>Следете нè: <a href="#">Facebook</a> | <a href="#">Instagram</a></p>
+    <p>© 2026 Travel Planner</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
